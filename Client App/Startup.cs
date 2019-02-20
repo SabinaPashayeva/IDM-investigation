@@ -44,7 +44,7 @@ namespace Client_App
                 //configure the handler that perform the OpenID Connect protocol
                 .AddOpenIdConnect("oidc", options =>
                 {
-                    options.Authority = "http://localhost:5000";
+                    options.Authority = "http://localhost:53325";
                     options.RequireHttpsMetadata = false;
 
                     options.ClientId = "mvc";

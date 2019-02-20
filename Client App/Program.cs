@@ -14,6 +14,8 @@ namespace Client_App
     {
         public static void Main(string[] args)
         {
+            Console.Title = "MVC Client";
+
             CreateWebHostBuilder(args).Build().Run();
         }
 
