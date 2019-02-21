@@ -11,15 +11,15 @@ namespace Client_App.Controllers
 {
     public class HomeController : Controller
     {
-        [Authorize]
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult About()
+        [Authorize]
+        public IActionResult Login()
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewData["Message"] = "Your application authorization page.";
 
             return View();
         }
@@ -34,6 +34,11 @@ namespace Client_App.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        public IActionResult Logout()
+        {
+            return SignOut("Cookies", "oidc");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
