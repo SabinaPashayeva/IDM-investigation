@@ -17,7 +17,7 @@ namespace Client_App.Controllers
         }
 
         [Authorize]
-        public IActionResult About()
+        public IActionResult Login()
         {
             ViewData["Message"] = "Your application authorization page.";
 
@@ -34,6 +34,11 @@ namespace Client_App.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        public IActionResult Logout()
+        {
+            return SignOut("Cookies", "oidc");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
