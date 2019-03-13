@@ -24,6 +24,7 @@ namespace Client_App.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Employee")]
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";

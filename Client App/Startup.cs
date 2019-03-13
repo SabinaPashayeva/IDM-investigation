@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
-using Client_App.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -11,6 +10,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using AuthorizationMiddleware;
 
 namespace Client_App
 {
@@ -52,9 +52,10 @@ namespace Client_App
                 });
 
             services.AddAuthorization(options =>
-            {
-                options.AddPolicy("PolicyName", policy => policy.RequireAuthenticatedUser());
-            });
+                {
+                    options.AddPolicy("PolicyName", policy => policy.RequireAuthenticatedUser());
+                })
+                .AddAuthorizationPolicyEvaluator();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,9 +73,9 @@ namespace Client_App
 
             app.UseAuthentication();
 
-            app.Map("/policy-based-authorization", branchedApp =>
+            app.Map("/role-based-authorization", branchedApp =>
             {
-                branchedApp.UseAuthorization("PolicyName");
+                branchedApp.UseAuthorization(new AuthorizationOptions { Roles = "Employee" });
             });
 
             app.UseStaticFiles();
