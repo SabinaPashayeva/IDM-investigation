@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
+using Client_App.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -31,7 +32,6 @@ namespace Client_App
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
 
-            //AddAuthentication adds the authentication services to DI
             services.AddAuthentication(options =>
                 {
                     // using a cookie to locally sign-in the user 
@@ -50,6 +50,11 @@ namespace Client_App
                     options.ClientId = "mvc";
                     options.SaveTokens = true;
                 });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("PolicyName", policy => policy.RequireAuthenticatedUser());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,6 +71,11 @@ namespace Client_App
             }
 
             app.UseAuthentication();
+
+            app.Map("/policy-based-authorization", branchedApp =>
+            {
+                branchedApp.UseAuthorization("PolicyName");
+            });
 
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
