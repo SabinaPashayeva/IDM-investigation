@@ -52,9 +52,12 @@ namespace Client_App
                 });
 
             services.AddAuthorization(options =>
-                {
-                    options.AddPolicy("PolicyName", policy => policy.RequireAuthenticatedUser());
-                })
+                    {
+                        options.AddPolicy("DeveloperToolPolicy", policy => policy.Requirements.Add(new RoleIdRequirement(143))); //id from config file
+                        //options.AddPolicy("DeveloperToolPolicy", policy => policy.RequireClaim("RoleId", "143"));
+         
+                        options.AddPolicy("CustomerOnboardingPolicy", policy => policy.Requirements.Add(new RoleIdRequirement(147)));
+                    })
                 .AddAuthorizationPolicyEvaluator();
         }
 
@@ -72,11 +75,11 @@ namespace Client_App
             }
 
             app.UseAuthentication();
-
-            app.Map("/role-based-authorization", branchedApp =>
-            {
-                branchedApp.UseAuthorization(new AuthorizationOptions { Roles = "Employee" });
-            });
+            
+            //app.Map("/role-based-authorization", branchedApp =>
+            //{
+            //    branchedApp.UseAuthorization(new AuthorizationOptions { Roles = "Employee" });
+            //});
 
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
