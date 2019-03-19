@@ -16,7 +16,7 @@ namespace Client_App.Controllers
             return View();
         }
 
-        [Authorize]
+        [Authorize(Policy = "DeveloperToolPolicy")]
         public IActionResult Login()
         {
             var claims = HttpContext.User.Claims;

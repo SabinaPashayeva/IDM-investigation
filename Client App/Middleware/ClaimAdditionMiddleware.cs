@@ -34,10 +34,10 @@ namespace ClientApp.Middleware
             };
 
             var previousClaimsIdentity = httpContext.User.Identity;
-            var appIdentity = new ClaimsIdentity(previousClaimsIdentity);
-            appIdentity.AddClaim(new Claim("roleId", roleModel.ToString()));
-
-            httpContext.User.AddIdentity(appIdentity);
+            //var appIdentity = new ClaimsIdentity(previousClaimsIdentity);
+            //appIdentity.AddClaim(new Claim("roleId", roleModel.RoleId.ToString()));
+            var appIdentity = httpContext.User.Identity as ClaimsIdentity;
+            appIdentity.AddClaim(new Claim("roleId", roleModel.RoleId.ToString()));
 
             await _next(httpContext);
         }

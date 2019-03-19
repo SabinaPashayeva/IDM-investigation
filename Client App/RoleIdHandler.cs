@@ -10,12 +10,12 @@ namespace Client_App
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, RoleIdRequirement requirement)
         {
-            if (!context.User.HasClaim(c => c.Type == "RoleId"))
+            if (!context.User.HasClaim(c => c.Type == "roleId"))
             {
                 return Task.CompletedTask;
             }
 
-            var roleId = Convert.ToInt32(context.User.FindFirst(c => c.Type == "RoleId"));
+            var roleId = Convert.ToInt32(context.User.FindFirst(c => c.Type == "roleId"));
 
             if (requirement.RoleId == roleId)
             {
