@@ -33,13 +33,10 @@ namespace ClientApp.Middleware
                 RoleId = 143
             };
 
-            var previousClaimsIdentity = httpContext.User.Identity;
-            //var appIdentity = new ClaimsIdentity(previousClaimsIdentity);
-            //appIdentity.AddClaim(new Claim("roleId", roleModel.RoleId.ToString()));
             var appIdentity = httpContext.User.Identity as ClaimsIdentity;
             appIdentity.AddClaim(new Claim("roleId", roleModel.RoleId.ToString()));
 
-            await _next(httpContext);
+            _next(httpContext);
         }
     }
 

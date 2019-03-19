@@ -15,7 +15,7 @@ namespace Client_App
                 return Task.CompletedTask;
             }
 
-            var roleId = Convert.ToInt32(context.User.FindFirst(c => c.Type == "roleId"));
+            var roleId = Convert.ToInt32(context.User.FindFirst(c => c.Type == "roleId").Value);
 
             if (requirement.RoleId == roleId)
             {

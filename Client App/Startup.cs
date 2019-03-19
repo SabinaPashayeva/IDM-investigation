@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using AuthorizationMiddleware;
 using System.Security.Claims;
 using ClientApp.Middleware;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Client_App
 {
@@ -55,12 +56,12 @@ namespace Client_App
 
             services.AddAuthorization(options =>
                     {
-                        options.AddPolicy("DeveloperToolPolicy", policy => policy.Requirements.Add(new RoleIdRequirement(143))); //id from config file
-                                                                                                                                 //options.AddPolicy("DeveloperToolPolicy", policy => policy.RequireClaim("RoleId", "143"));
-
+                        options.AddPolicy("DeveloperToolPolicy", policy => policy.Requirements.Add(new RoleIdRequirement(143))); //id from config file                                                                                    
                         options.AddPolicy("CustomerOnboardingPolicy", policy => policy.Requirements.Add(new RoleIdRequirement(147)));
                     })
                 .AddAuthorizationPolicyEvaluator();
+
+            services.AddSingleton<IAuthorizationHandler, RoleIdHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
