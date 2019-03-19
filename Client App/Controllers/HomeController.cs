@@ -19,6 +19,7 @@ namespace Client_App.Controllers
         [Authorize]
         public IActionResult Login()
         {
+            var claims = HttpContext.User.Claims;
             ViewData["Message"] = "Your application authorization page.";
 
             return View();
