@@ -28,6 +28,7 @@ namespace ClientApp.Middleware
             //send request to CIDM
             //get response
 
+            //example of output
             var roleModel = new RoleModel
             {
                 RoleId = 143
@@ -36,7 +37,7 @@ namespace ClientApp.Middleware
             var appIdentity = httpContext.User.Identity as ClaimsIdentity;
             appIdentity.AddClaim(new Claim("roleId", roleModel.RoleId.ToString()));
 
-            _next(httpContext);
+            await _next(httpContext);
         }
     }
 

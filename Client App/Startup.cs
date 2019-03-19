@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using AuthorizationMiddleware;
 using System.Security.Claims;
 using ClientApp.Middleware;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Client_App
@@ -80,10 +81,20 @@ namespace Client_App
             app.UseAuthentication();
 
             app.UseClaimAddition();
-            //app.Map("/role-based-authorization", branchedApp =>
+            //app.MapWhen(context => context.User.Identity.IsAuthenticated &&
+            //                       !context.User.HasClaim(claim => claim.Type == "roleId"),
+            //    branchedApp =>
+            //    {
+            //        branchedApp.UseClaimAddition();
+            //        branchedApp.UseMvcWithDefaultRoute();
+            //    });
+
+            //styles are missing
+            //app.Map("/Home/Login", branchedApp =>
             //{
-            //    branchedApp.UseAuthorization(new AuthorizationOptions { Roles = "Employee" });
-            //});
+            //    branchedApp.UseClaimAddition();
+            //    branchedApp.UseMvcWithDefaultRoute();
+            //}); 
 
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();

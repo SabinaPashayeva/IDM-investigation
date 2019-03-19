@@ -19,13 +19,12 @@ namespace Client_App.Controllers
         [Authorize(Policy = "DeveloperToolPolicy")]
         public IActionResult Login()
         {
-            var claims = HttpContext.User.Claims;
             ViewData["Message"] = "Your application authorization page.";
 
             return View();
         }
 
-        [Authorize(Roles = "Employee")]
+        [Authorize]
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
