@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ClientApp.Middleware;
+using Client_App.Services;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Client_App
@@ -59,6 +60,8 @@ namespace Client_App
                     })
                 .AddAuthorizationPolicyEvaluator();
 
+            services.AddMemoryCache();
+            services.AddSingleton<IAppMemoryCache, AppMemoryCache>();
             services.AddSingleton<IAuthorizationHandler, RoleIdHandler>();
         }
 
