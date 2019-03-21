@@ -10,7 +10,7 @@ namespace ClientApp.Middleware
     public class ClaimAdditionMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly CidmService _cidmService;
+        private readonly ICidmService _cidmService;
   
         public ClaimAdditionMiddleware(RequestDelegate request)
         {

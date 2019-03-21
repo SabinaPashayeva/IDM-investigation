@@ -8,6 +8,7 @@ namespace DM.Service
     public interface ICidmService
     {
         bool IsAuthorizedForAppAssist(int userKey);
+        string GetRoleIdOfUser(int userKey);
     }
 
     public class CidmService : ICidmService
