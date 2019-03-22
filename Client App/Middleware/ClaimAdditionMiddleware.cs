@@ -43,7 +43,7 @@ namespace ClientApp.Middleware
         {
             if (!principal.HasClaim(claim => claim.Type == "EmployeeId"))
             {
-                return new Random().Next();
+                return 8123;
             }
 
             var employeeId = principal.FindFirst(claim => claim.Type == "EmployeeId").Value;
@@ -52,11 +52,11 @@ namespace ClientApp.Middleware
 
         private string GetRoleId(int userId)
         {
-            var roleId = _memoryCache.TryGetValue<string>();
+            var roleId = _memoryCache.TryGetValue<string>(userId.ToString());
             if (string.IsNullOrWhiteSpace(roleId))
             {
                 roleId = _cidmService.GetRoleIdOfUser(userId);
-                _memoryCache.SetValue(roleId);
+                _memoryCache.SetValue(userId.ToString(), roleId);
             }
 
             return roleId;

@@ -15,9 +15,9 @@ namespace Client_App.Services
             _cache = memoryCache;
         }
 
-        public T TryGetValue<T>()
+        public T TryGetValue<T>(string keyEntry)
         {
-            if (!_cache.TryGetValue(CacheKeys.Entry, out T cachedItem))
+            if (!_cache.TryGetValue(keyEntry, out T cachedItem))
             {
                 return default(T);
             }
@@ -25,12 +25,12 @@ namespace Client_App.Services
             return cachedItem;
         }
 
-        public void SetValue<T>(T needsCachingItem)
+        public void SetValue<T>(string keyEntry, T needsCachingItem)
         {
             var cacheEntryOptions = new MemoryCacheEntryOptions()
                 .SetSlidingExpiration(TimeSpan.FromMinutes(15));
 
-            _cache.Set<T>(CacheKeys.Entry, needsCachingItem, cacheEntryOptions);
+            _cache.Set<T>(keyEntry, needsCachingItem, cacheEntryOptions);
         }
     }
 }

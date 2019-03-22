@@ -7,7 +7,7 @@ namespace Client_App.Services
 {
     public interface IAppMemoryCache
     {
-        T TryGetValue<T>();
-        void SetValue<T>(T needsCachingItem);
+        T TryGetValue<T>(string keyEntry);
+        void SetValue<T>(string keyEntry, T needsCachingItem);
     }
 }
