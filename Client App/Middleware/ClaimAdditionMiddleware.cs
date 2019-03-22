@@ -27,6 +27,7 @@ namespace ClientApp.Middleware
         {
             if (httpContext.User == null || !httpContext.User.Identity.IsAuthenticated)
             {
+                await _next(httpContext);
                 return;
             }
 
