@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ClientApp.Middleware;
 using Client_App.Services;
+using DM.Service;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Client_App
@@ -63,6 +64,7 @@ namespace Client_App
             services.AddMemoryCache();
             services.AddSingleton<IAppMemoryCache, AppMemoryCache>();
             services.AddSingleton<IAuthorizationHandler, RoleIdHandler>();
+            services.AddTransient<ICidmService, CidmService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

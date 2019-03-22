@@ -12,13 +12,6 @@ namespace Client_App.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IAppMemoryCache _memoryCache;
-
-        public HomeController(IAppMemoryCache memoryCache)
-        {
-            _memoryCache = memoryCache;
-        }
-
         public IActionResult Index()
         {
             return View();

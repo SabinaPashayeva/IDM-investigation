@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Client_App.Services;
 using Microsoft.AspNetCore.Http;
 using DM.Service;
 
@@ -11,11 +12,15 @@ namespace ClientApp.Middleware
     {
         private readonly RequestDelegate _next;
         private readonly ICidmService _cidmService;
+        private readonly IAppMemoryCache _memoryCache;
   
-        public ClaimAdditionMiddleware(RequestDelegate request)
+        public ClaimAdditionMiddleware(RequestDelegate request, 
+            ICidmService cidmService,
+            IAppMemoryCache memoryCache)
         {
             _next = request;
-            _cidmService = new CidmService();
+            _cidmService = cidmService;
+            _memoryCache = memoryCache;
         }
 
         public async Task InvokeAsync(HttpContext httpContext)
@@ -26,11 +31,9 @@ namespace ClientApp.Middleware
             }
 
             var userId = GetEmployeeId(httpContext.User);
-
-            var roleId = _cidmService.GetRoleIdOfUser(userId);
-
+            
             var appIdentity = httpContext.User.Identity as ClaimsIdentity;
-            appIdentity?.AddClaim(new Claim("roleId", roleId));
+            appIdentity?.AddClaim(new Claim("roleId", GetRoleId(userId)));
 
             await _next(httpContext);
         }
@@ -44,6 +47,18 @@ namespace ClientApp.Middleware
 
             var employeeId = principal.FindFirst(claim => claim.Type == "EmployeeId").Value;
             return Convert.ToInt32(employeeId);
+        }
+
+        private string GetRoleId(int userId)
+        {
+            var roleId = _memoryCache.TryGetValue<string>();
+            if (string.IsNullOrWhiteSpace(roleId))
+            {
+                roleId = _cidmService.GetRoleIdOfUser(userId);
+                _memoryCache.SetValue(roleId);
+            }
+
+            return roleId;
         }
     }
 
